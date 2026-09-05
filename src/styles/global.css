@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-@theme {}
+@theme {
+	--font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+	--font-manrope: "Jost", ui-sans-serif, system-ui, sans-serif;
+}
 
 html {
   @apply scroll-smooth;

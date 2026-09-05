@@ -1,11 +1,156 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Meenerva" description="Meenerva — Plateforme en construction.">
+	<main
+		class="font-sans bg-zinc-950 min-h-screen flex items-center justify-center px-4 md:px-5 lg:px-5"
+	>
+		<section class="py-24 relative w-full max-w-7xl mx-auto">
+			<div
+				class="w-full md:px-16 px-10 md:pt-16 pt-10 pb-10 bg-zinc-950 rounded-2xl flex-col justify-end items-center lg:gap-28 md:gap-16 gap-10 inline-flex"
+			>
+				<div class="flex-col justify-end items-center lg:gap-16 gap-10 flex">
+					<div
+						class="h-24 md:h-28 rounded-2xl overflow-hidden ring-1 ring-white/10"
+					>
+						<img
+							src="/meenerva-logo.jpg"
+							alt="Meenerva logo"
+							class="w-full h-full object-cover"
+						/>
+					</div>
+
+					<div class="flex-col justify-center items-center gap-10 flex">
+						<div class="flex-col justify-start items-center gap-2.5 flex">
+							<h2
+								class="text-center text-zinc-800 md:text-6xl text-5xl font-bold font-manrope leading-normal"
+							>
+								Coming Soon
+							</h2>
+						</div>
+
+						<div
+							class="flex items-start justify-center w-full gap-2 count-down-main"
+						>
+							<div class="timer flex flex-col gap-0.5">
+								<h3
+									class="countdown-element days text-center text-white text-2xl font-bold font-manrope leading-9"
+								>
+									00
+								</h3>
+								<p
+									class="text-center text-zinc-500 text-xs font-normal leading-normal w-full"
+								>
+									DAYS
+								</p>
+							</div>
+							<h3
+								class="w-3 text-center text-zinc-500 text-2xl font-medium font-manrope leading-9"
+							>
+								:
+							</h3>
+							<div class="timer flex flex-col gap-0.5">
+								<h3
+									class="countdown-element hours text-center text-white text-2xl font-bold font-manrope leading-9"
+								>
+									00
+								</h3>
+								<p
+									class="text-center text-zinc-500 text-xs font-normal leading-normal w-full"
+								>
+									HRS
+								</p>
+							</div>
+							<h3
+								class="w-3 text-center text-zinc-500 text-2xl font-medium font-manrope leading-9"
+							>
+								:
+							</h3>
+							<div class="timer flex flex-col gap-0.5">
+								<h3
+									class="countdown-element minutes text-center text-white text-2xl font-bold font-manrope leading-9"
+								>
+									00
+								</h3>
+								<p
+									class="text-center text-gray-500 text-xs font-normal leading-normal w-full"
+								>
+									MINS
+								</p>
+							</div>
+							<h3
+								class="w-3 text-center text-zinc-500 text-2xl font-medium font-manrope leading-9"
+							>
+								:
+							</h3>
+							<div class="timer flex flex-col gap-0.5">
+								<h3
+									class="countdown-element seconds text-center text-white text-2xl font-bold font-manrope leading-9"
+								>
+									00
+								</h3>
+								<p
+									class="text-center text-zinc-500 text-xs font-normal leading-normal w-full"
+								>
+									SECS
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<p class="text-center text-zinc-500 text-sm">
+					Contact us:
+					<a
+						href="mailto:hello@meenerva.io"
+						class="underline-offset-4 ml-1 text-zinc-400 hover:text-emerald-400 hover:underline transition-colors"
+					>
+						hello@meenerva.io
+					</a>
+				</p>
+			</div>
+		</section>
+	</main>
+
+<script>
+		const STORAGE_KEY = "meenerva-countdown";
+		const DAYS = 60;
+
+		function getDest() {
+			const stored = localStorage.getItem(STORAGE_KEY);
+			if (stored) {
+				const d = new Date(JSON.parse(stored));
+				if (!isNaN(d.getTime())) return d;
+			}
+			const dest = new Date();
+			dest.setDate(dest.getDate() + DAYS);
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(dest.toISOString()));
+			return dest;
+		}
+
+		let dest = getDest();
+
+		const pad = (n: any) => n.toString().padStart(2, "0");
+
+		function tick() {
+			let now = new Date().getTime();
+			let diff = dest.getTime() - now;
+			if (diff <= 0) return;
+			const days = pad(Math.floor(diff / (1000 * 60 * 60 * 24)));
+			const hours = pad(
+				Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+			);
+			const minutes = pad(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+			const seconds = pad(Math.floor((diff % (1000 * 60)) / 1000));
+
+			document.querySelector(".days")!.textContent = days;
+			document.querySelector(".hours")!.textContent = hours;
+			document.querySelector(".minutes")!.textContent = minutes;
+			document.querySelector(".seconds")!.textContent = seconds;
+		}
+
+		tick();
+		setInterval(tick, 1000);
+	</script>
 </Layout>
