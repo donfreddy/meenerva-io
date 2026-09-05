@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
